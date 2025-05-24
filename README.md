@@ -1,70 +1,54 @@
-# Weather-App-Flask-SQLite-YouTube-OpenWeather
-A full-stack weather app built with Flask and SQLite that fetches real-time weather data and a 5-time forecast using OpenWeather API. It integrates with the YouTube Data API to show city-specific videos and supports full CRUD operations with a search history database.
-
-
 # 🌦️ Weather Forecast App — Flask + SQLite + OpenWeather + YouTube
 
-A beautiful, full-stack **weather forecast web app** built with **Python Flask** that shows **real-time weather**, a **5-slot forecast**, and **relevant YouTube travel videos** for any searched location.  
-It also features a **search history** with full **CRUD support**, animated UI, and clean design — perfect to showcase full-stack and UI/UX skills.
+An interactive full-stack web app built using **Python Flask**, **SQLite**, and public APIs like **OpenWeatherMap** and **YouTube Data API**. This application lets users search for real-time weather in any city, view a 5-slot forecast, watch related YouTube videos, see the location on Google Maps, and manage search history with full CRUD support. Users can also export their data as CSV or JSON.
 
----
+## Features
+- 🌤 Real-time current weather and 5-time-slot forecast
+- 🎥 YouTube video suggestions for the searched city
+- 🗺️ Google Maps integration
+- 💾 SQLite-backed search history
+- ✏️ Full CRUD: Create, Read, Update, Delete
+- 📤 Export search history to CSV and JSON
+- 💅 Animated and responsive UI
 
-## 🎨 Fonts & Styling
-
-- Font: [Inter](https://fonts.google.com/specimen/Inter) (via Google Fonts)
-- Theme: Light mode with pastel accents
-- Effects: CSS animations (fade-in, pop-in, slide), hover glows, responsive UI
-
----
-
-## 🚀 Features
-
-- 🔍 **Search weather by city name** (current + forecast)
-- 📅 **5-slot weather forecast** using OpenWeatherMap
-- 🎥 **YouTube video suggestions** for the city
-- 💾 **Search history** saved in local SQLite database
-- 🛠️ **CRUD operations**:
-  - Create (save search)
-  - Read (view history)
-  - Update (edit entries)
-  - Delete (remove entries)
-- 💅 Interactive UI with transitions, effects, and accessible layout
-
----
-
-## 🛠️ Setup Instructions
+## Setup Instructions
 
 ### 1. Clone the Repository
-
+```bash
 git clone https://github.com/YOUR_USERNAME/weather-app.git
 cd weather-app
+```
 
-2 . Create a Virtual Environment (optional but recommended)
-
+### 2. Create and Activate Virtual Environment (optional)
+```bash
 python -m venv venv
-venv\Scripts\activate      # Windows
+venv\Scripts\activate  # For Windows
 # OR
-source venv/bin/activate
+source venv/bin/activate  # For macOS/Linux
+```
 
-3. Install Dependencies
-
+### 3. Install Dependencies
+```bash
 pip install -r requirements.txt
+```
 
-4. Create a .env File
-
-Create a .env file in the root directory and add:
-
+### 4. Create a `.env` File
+Create a `.env` file in the root directory and add:
+```
 WEATHER_API_KEY=your_openweather_api_key
 YOUTUBE_API_KEY=your_youtube_api_key
+```
 
-5. Run the App
-
+### 5. Run the App
+```bash
 python app.py
+```
+Visit: `http://localhost:5000` in your browser
 
-Visit: http://localhost:5000 in your browser
+## Notes
+- Keep your `.env` file private. It should be listed in `.gitignore`.
+- The database (`weather.db`) is auto-created locally.
 
-Notes
-
-Keep your .env file private. It should be listed in .gitignore.
-
-The database (weather.db) is auto-created locally.
+## Author
+Mahathi Pilli  
+Graduate Student — Computer Science @ Texas State University
