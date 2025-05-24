@@ -1,7 +1,9 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, Response
 import requests
 import os
 import sqlite3
+import json
+import csv
 from dotenv import load_dotenv
 from database import init_db
 
@@ -48,13 +50,11 @@ def index():
                 'icon': data['weather'][0]['icon']
             }
 
-            # 5-slot forecast
             forecast_url = f"http://api.openweathermap.org/data/2.5/forecast?q={city}&appid={API_KEY}&units=metric"
             forecast_response = requests.get(forecast_url)
             if forecast_response.status_code == 200:
                 forecast = forecast_response.json()['list'][:5]
 
-            # Save search
             conn = sqlite3.connect('weather.db')
             cursor = conn.cursor()
             cursor.execute('''
@@ -64,13 +64,10 @@ def index():
             conn.commit()
             conn.close()
 
-            # Get YouTube videos
             youtube_links = get_youtube_videos(city)
-
         else:
             error = "City not found. Try again!"
 
-    # Retrieve history
     conn = sqlite3.connect('weather.db')
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM weather ORDER BY id DESC")
@@ -113,5 +110,42 @@ def edit_record(id):
     conn.close()
     return render_template("edit.html", record=record)
 
+@app.route('/export/csv')
+def export_csv():
+    conn = sqlite3.connect('weather.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM weather")
+    rows = cursor.fetchall()
+    conn.close()
+
+    csv_data = "ID,City,Date,Temperature,Description\n"
+    for r in rows:
+        csv_data += f"{r[0]},{r[1]},{r[2]},{r[3]},{r[4]}\n"
+
+    return Response(
+        csv_data,
+        mimetype="text/csv",
+        headers={"Content-Disposition": "attachment;filename=weather_export.csv"}
+    )
+
+@app.route('/export/json')
+def export_json():
+    conn = sqlite3.connect('weather.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM weather")
+    rows = cursor.fetchall()
+    conn.close()
+
+    data = [
+        {"id": r[0], "city": r[1], "date": r[2], "temperature": r[3], "description": r[4]}
+        for r in rows
+    ]
+
+    return Response(
+        json.dumps(data, indent=4),
+        mimetype="application/json",
+        headers={"Content-Disposition": "attachment;filename=weather_export.json"}
+    )
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
